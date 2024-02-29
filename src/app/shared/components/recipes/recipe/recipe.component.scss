@@ -1,0 +1,37 @@
+.recipe-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #D2E3C8;
+  border-bottom: 1px solid #86A789;
+  border-radius: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.recipe-header-left img{
+  width: 200px;
+}
+
+.recipe-info{
+  padding-left: 20px;
+  border-radius: 50%;
+  object-fit:cover;
+  margin-right: 10px;
+  // font-family: "Comic Sans MS", cursive;
+  line-height: 1.6;
+}
+
+.recipe-info-description{
+  font-family: "Comic Sans MS", cursive;
+}
+
+.recipe-header-info-name{
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.container{
+  min-width:300px;
+  padding: 10px;
+}

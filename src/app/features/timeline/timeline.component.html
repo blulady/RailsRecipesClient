@@ -1,0 +1,9 @@
+<div class="container">
+  <div class="side-column"></div>
+  <div class="main-column">
+    @for (recipe of recipes; track recipe.id){
+      <app-recipe [recipe]="recipe"/>
+    }
+  </div>
+  <div class="side-column"></div>
+</div>
