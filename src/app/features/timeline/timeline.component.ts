@@ -12,17 +12,39 @@ import { RecipeService } from '../../core/services/recipe.service';
 })
 export class TimelineComponent implements OnInit {
   recipes: Recipe[] = [];
+  currentPage: number = 1;
+  totalPages: number = 0;
+
 
   constructor(private recipeService:RecipeService) {}
 
+
   ngOnInit(): void {
-    this.recipeService.getTimeLineRecipes().subscribe({
-      next: (recipes:Recipe[]) =>{
-        this.recipes = recipes;
+      this.loadRecipes(this.currentPage);
+  }
+
+  loadRecipes(page: number) {
+    this.recipeService.getRecipes(page).subscribe({
+      next: (response:any) => {
+        this.recipes = response.recipes;
+        this.currentPage = response.current_page;
+        this.totalPages = response.total_pages
       },
-      error: (error:any) => {
-        console.error('Error fetching timeline recipes', error);
+      error: (error:any) =>{
+        console.error("recipe fetching gone wrong", error)
       }
     })
+  }
+
+  nextPage(){
+    if(this.currentPage < this.totalPages){
+      this.loadRecipes(this.currentPage +1 )
+    }
+  }
+
+  previousPage(){
+    if(this.currentPage > 1){
+      this.loadRecipes(this.currentPage - 1)
+    }
   }
 }

@@ -14,4 +14,8 @@ export class RecipeService {
   getTimeLineRecipes(): Observable<Recipe[]>{
     return this.http.get<Recipe[]>(`${environment.apiUrl}/recipes`)
   }
+
+  getRecipes(page:number){
+    return this.http.get<Recipe[]>(`${environment.apiUrl}/recipes?page=${page}`)
+  }
 }
