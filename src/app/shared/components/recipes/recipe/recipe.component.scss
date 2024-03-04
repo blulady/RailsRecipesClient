@@ -7,6 +7,7 @@
   border-bottom: 1px solid #86A789;
   border-radius: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  width: 700px;
 }
 
 .recipe-header:hover{
@@ -26,7 +27,7 @@
   line-height: 1.6;
 }
 
-.recipe-info-description{
+.recipe-info{
   font-family: "Comic Sans MS", cursive;
 }
 
@@ -41,3 +42,4 @@
   min-width:300px;
   padding: 10px;
 }
+
