@@ -1,1 +1,18 @@
-<p>login works!</p>
+<div class="container">
+  <div class="form-group-container">
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="text" formControlName="email">
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="text" formControlName="password">
+  </div>
+  <button type="submit" class="btn btn-success" [disabled]="!loginForm">login</button>
+  </form>
+  @if(isError){
+    <p class="error">Email and Password credentials failed. Please try again.</p>
+  }
+  </div>
+</div>

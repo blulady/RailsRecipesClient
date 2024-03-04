@@ -10,9 +10,9 @@ export class AuthenticationService {
 
   constructor(private http:HttpClient, private router:Router) { }
 
-  login(username:string, password:string){
+  login(email:string, password:string){
     return this.http.post<{token:string}>(`${environment.apiUrl}/login`,
-    {username,
+    {email,
     password})
   }
   setToken(token:string){
