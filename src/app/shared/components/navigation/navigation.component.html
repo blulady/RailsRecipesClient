@@ -14,23 +14,27 @@
         <li class="nav-item">
           <a routerLink="" routerLinkActive="active" class="nav-link">Recipes</a>
         </li>
-        <li class="nav-item">
-          <a routerLink="" routerLinkActive="active" class="nav-link">My Favorites</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/login">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" href="#">Logout</a>
-        </li>
+        @if (isLoggedIn()) {
+          <li class="nav-item">
+            <a routerLink="" routerLinkActive="active" class="nav-link">My Favorites</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login" routerLinkActive="active" (click)="logout()" href="#">Logout</a>
+          </li>}@else{
+            <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" routerLink="/login">Login</a>
+            </li>
+          }
       </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search for Recipes" aria-label="Search">
-        <button class="btn btn-outline-success"
-          type="submit"
-          routerLink="" style="color: black;"
-          >Search</button>
-      </form>
+      @if (isLoggedIn()){
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search for Recipes" aria-label="Search">
+          <button class="btn btn-outline-success"
+            type="submit"
+            routerLink="" style="color: black;"
+            >Search</button>
+        </form>
+      }
     </div>
   </div>
 </nav>
