@@ -24,6 +24,8 @@
             <li class="nav-item">
               <a class="nav-link" routerLinkActive="active" routerLink="/login">Login</a>
             </li>
+            @if (isLoggedIn()) {
+            <span>Welcome {{currentUser?.email}}</span>}
           }
       </ul>
       @if (isLoggedIn()){

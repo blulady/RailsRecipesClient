@@ -16,7 +16,7 @@ export class AuthenticationService {
     password})
   }
   setToken(token:string){
-    localStorage.setItem('token',token);
+    localStorage.setItem('token', token);
   }
 
   getToken(){
