@@ -10,6 +10,7 @@
     <input type="text" formControlName="password">
   </div>
   <button type="submit" class="btn btn-success" [disabled]="!loginForm">login</button>
+  <p>Not a User? Sign up <a [routerLink]="['/signup']">here</a></p>
   </form>
   @if(isError){
     <p class="error">Email and Password credentials failed. Please try again.</p>

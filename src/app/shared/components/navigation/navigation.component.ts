@@ -14,12 +14,15 @@ import { UserService } from '../../../core/services/user.service';
 export class NavigationComponent implements OnInit {
 
   currentUser: User | null = null;
+  firstName: string = '';
+  lastName: string = '';
 
   constructor(private authService: AuthenticationService, private userService: UserService) {}
 
   ngOnInit(): void {
     this.userService.currentUserBehaviorSubject.subscribe((user) =>
     {this.currentUser = user;})
+    console.log("from NavCom", this.currentUser)
   }
 
   isLoggedIn() {
@@ -28,5 +31,16 @@ export class NavigationComponent implements OnInit {
 
   logout(){
     this.authService.logout();
+    this.userService.setCurrentUser(null);
   }
+
+  // getName() {
+  //   this.userService.currentUserBehaviorSubject.subscribe((user) => {
+  //     this.firstName = this.userService.currentUserBehaviorSubject.value?.firstName;
+  //   });
+  // }
+  getName() {
+    this.firstName = this.userService.currentUserBehaviorSubject.value?.firstName ?? '';
+  }
+
 }

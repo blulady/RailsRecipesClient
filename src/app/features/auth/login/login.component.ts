@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../../core/services/authentication.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -29,7 +29,8 @@ export class LoginComponent {
       this.authService.login(email, password).subscribe({
         next: (res:any) =>{
           console.log(res),
-          this.authService.setToken(res.token)
+
+          // this.authService.setToken(res.token)
           // TADA will want this to route to favorites
           this.router.navigate(['/'])
         },

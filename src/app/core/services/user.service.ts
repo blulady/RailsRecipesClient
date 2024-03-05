@@ -9,6 +9,9 @@ import { environment } from '../../../environments/environment';
 })
 export class UserService {
 
+  firstName: string = "";
+  lastName: string = "";
+
   currentUserBehaviorSubject = new BehaviorSubject<User | null>(null)
   constructor(private http:HttpClient) {}
 
@@ -21,6 +24,9 @@ export class UserService {
       tap((res:any)=>{
         this.setCurrentUser(res.current_user)
         console.log(res);
+        this.firstName = res.current_user.first_name;
+        this.lastName = res.current_user.first_name;
+        console.log(this.firstName, this.lastName)
       })
     )
   }
