@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -17,7 +17,12 @@ export class AuthenticationService {
     {email,
     password}).pipe(switchMap((res:any) =>{
       this.setToken(res.token);
-      return  this.userService.getBootstrapData()
+      return  this.userService.getBootstrapData().pipe(
+        tap((data:any) =>{
+          const currentUser = data.current_user;
+          this.userService.setCurrentUser(currentUser);
+        })
+      )
     }))
   }
   setToken(token:string){

@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../../core/services/authentication.service';
 import { User } from '../../models/user';
 import { UserService } from '../../../core/services/user.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-navigation',
@@ -22,7 +23,7 @@ export class NavigationComponent implements OnInit {
   ngOnInit(): void {
     this.userService.currentUserBehaviorSubject.subscribe((user) =>
     {this.currentUser = user;})
-    console.log("from NavCom", this.currentUser)
+    // this.getFirstName()
   }
 
   isLoggedIn() {
@@ -34,13 +35,21 @@ export class NavigationComponent implements OnInit {
     this.userService.setCurrentUser(null);
   }
 
-  // getName() {
-  //   this.userService.currentUserBehaviorSubject.subscribe((user) => {
-  //     this.firstName = this.userService.currentUserBehaviorSubject.value?.firstName;
+  // getFirstName(){
+  //   this.userService.getBootstrapData().subscribe((res:any) => {
+  //     this.firstName = res.current_user.first_name;
+  //     console.log("from nav", this.firstName)
   //   });
   // }
-  getName() {
-    this.firstName = this.userService.currentUserBehaviorSubject.value?.firstName ?? '';
-  }
+
+  // getFirstName(){
+  //   this.userService.currentUserBehaviorSubject.pipe(
+  //     filter(user => !!user) // Ignore values until the user is not null
+  //   ).subscribe((current_user: User | null) => {
+  //     if (current_user){
+  //       this.firstName = current_user.firstName;
+  //       console.log("from nav", this.firstName)
+  // }});
+  // }
 
 }

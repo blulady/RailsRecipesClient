@@ -19,6 +19,8 @@ export class SignupComponent {
     password_confirmation: new FormControl('', Validators.required)
   })
 
+  errors:string[] = [];
+
   constructor(private authService: AuthenticationService, private router: Router){}
 
   onSignup(){
@@ -28,7 +30,8 @@ export class SignupComponent {
         this.router.navigate(['/login'])
       },
       error: (error:any) =>{
-        console.log(error)
+        console.log(error.error)
+        this.errors = error.error
       }
     })
   }
