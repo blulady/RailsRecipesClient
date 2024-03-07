@@ -35,7 +35,7 @@ export class LoginComponent {
           this.router.navigate(['/'])
         },
         error: (error:any) => {
-          console.log("Things went wrong logging ", error)
+          console.log("Things went wrong loggin ", error)
           this.isError = true
         }
       })

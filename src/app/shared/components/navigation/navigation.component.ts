@@ -34,22 +34,4 @@ export class NavigationComponent implements OnInit {
     this.authService.logout();
     this.userService.setCurrentUser(null);
   }
-
-  // getFirstName(){
-  //   this.userService.getBootstrapData().subscribe((res:any) => {
-  //     this.firstName = res.current_user.first_name;
-  //     console.log("from nav", this.firstName)
-  //   });
-  // }
-
-  // getFirstName(){
-  //   this.userService.currentUserBehaviorSubject.pipe(
-  //     filter(user => !!user) // Ignore values until the user is not null
-  //   ).subscribe((current_user: User | null) => {
-  //     if (current_user){
-  //       this.firstName = current_user.firstName;
-  //       console.log("from nav", this.firstName)
-  // }});
-  // }
-
 }
