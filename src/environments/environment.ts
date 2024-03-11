@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
   // TADA
-  apiUrl: 'https://www.production.com'
+  apiUrl: 'https://rails-angular-recipes.onrender.com'
 };
