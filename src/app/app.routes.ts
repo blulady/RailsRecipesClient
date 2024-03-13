@@ -21,6 +21,12 @@ export const routes: Routes = [
   // },
 
   {
+    path: "create-recipe",
+    loadComponent: () => import("./features/create-recipe/create-recipe.component").then((c) => c.CreateRecipeComponent),
+    canActivate: [authGuard]
+  },
+
+  {
     path: "signup",
     loadComponent: () => import("./features/auth/signup/signup.component").then((c) => c.SignupComponent),
     canActivate: [noAuthGuard]
