@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { noAuthGuard } from './core/guards/no-auth.guard';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -13,10 +14,21 @@ export const routes: Routes = [
     canActivate: [noAuthGuard]
   },
 
+  // {
+  //   path: "recipes",
+  //   loadComponent: () => import("./shared/components/recipes/recipe/recipe.component").then((c) => c.RecipeComponent),
+  //   canActivate: [authGuard]
+  // },
+
   {
     path: "signup",
     loadComponent: () => import("./features/auth/signup/signup.component").then((c) => c.SignupComponent),
     canActivate: [noAuthGuard]
+  },
+  {
+    path: ":id",
+    loadComponent: () => import("./features/recipe-details/recipe-details.component").then((c) => c.RecipeDetailsComponent),
+    canActivate: [authGuard]
   }
 
 ];

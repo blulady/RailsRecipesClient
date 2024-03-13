@@ -1,0 +1,33 @@
+<div class="recipe-detail-container">
+  <h2 class="recipe-header-info-name">{{recipe.name}}</h2>
+
+  <div class="recipe-info">
+    <p class="recipe-difficulty">difficulty level: {{recipe.difficulty_level}}</p>
+    <p class="recipe-servings">{{recipe.servings}} servings</p>
+    <p class="recipe-categories">meal type: {{recipe.meal}}</p>
+    <p class="recipe-description">{{recipe.description}}</p>
+  </div>
+
+  <div class="instructions-container">
+    <h3>Instructions</h3>
+    <p>{{recipe.instructions}}</p>
+  </div>
+  <div class="ingredients-list-container">
+    <h3>Ingredients</h3>
+    <ul>
+      @for(ingredient of recipe.ingredients; track recipe.id){
+        <li>{{ingredient.name}}:</li>
+      }
+    </ul>
+    <div class="reviews-list-container">
+      <h3>Reviews</h3>
+      <ul>
+        @for(review of recipe.reviews; track recipe.id){
+          <li>{{review?.comment}}</li>
+          <li>{{review?.rating}}</li>
+          <li>by {{review?.user}}</li>
+        }
+      </ul>
+    </div>
+  </div>
+</div>

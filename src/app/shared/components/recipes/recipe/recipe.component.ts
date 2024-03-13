@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Recipe } from '../../../models/recipe';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-recipe',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './recipe.component.html',
   styleUrl: './recipe.component.scss'
 })

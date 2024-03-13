@@ -18,4 +18,7 @@ export class RecipeService {
   getRecipes(page:number){
     return this.http.get<Recipe[]>(`${environment.apiUrl}/recipes?page=${page}`)
   }
+  getRecipe(id:string | number){
+    return this.http.get<Recipe>(`${environment.apiUrl}/recipes/${id}`)
+  }
 }

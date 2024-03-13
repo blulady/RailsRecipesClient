@@ -1,0 +1,24 @@
+.recipe-detail-container{
+  border-radius: 15px;
+  padding: 20px 200px;
+  max-width: 800px;
+  margin: 2rem auto;
+  background-color: #d2e3c8;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  margin-top: 70px;
+}
+
+.recipe-header-info-name{
+  background-color: #b3a398;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.recipe-info{
+  display: flex;
+  justify-content: space-around;
+  border:#b3a398 1px solid;
+  border-radius: 10px;
+  padding: 10px;
+}
