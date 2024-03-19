@@ -25,6 +25,7 @@ export class RecipeDetailsComponent implements OnInit {
             console.log(this.recipe)
             console.log(this.recipe.categories)
             console.log(this.recipe.reviews)
+            console.log(this.recipe.reviews[0].user.first_name)
           },
           error: (error)=>{
             console.log(error);
