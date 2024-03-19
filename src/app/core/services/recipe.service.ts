@@ -3,6 +3,7 @@ import { Recipe } from '../../shared/models/recipe';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { Measurement } from '../../shared/models/measurement';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,13 @@ export class RecipeService {
   }
   getRecipe(id:string | number){
     return this.http.get<Recipe>(`${environment.apiUrl}/recipes/${id}`)
+  }
+
+  getMeasurements(): Observable<Measurement[]>{
+    return this.http.get<Measurement[]>(`${environment.apiUrl}/measurements`)
+  }
+
+  createRecipe(recipe:Recipe){
+    return this.http.post<Recipe>(`${environment.apiUrl}/recipes`, recipe)
   }
 }

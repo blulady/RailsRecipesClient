@@ -4,8 +4,17 @@
   <div class="recipe-info">
     <p class="recipe-difficulty">difficulty level: {{recipe.difficulty_level}}</p>
     <p class="recipe-servings">{{recipe.servings}} servings</p>
-    <p class="recipe-categories">meal type: {{recipe.meal}}</p>
+    <p class="recipe-meal">meal type: {{recipe.meal}}</p>
     <p class="recipe-description">{{recipe.description}}</p>
+  </div>
+  <div class="categories-container">
+    <h3>Categories</h3>
+    <ul>
+      @for(category of recipe.categories; track category.id){
+        <li>{{category.id}}</li>
+        <li>{{category.name}}</li>
+      }
+    </ul>
   </div>
 
   <div class="instructions-container">
@@ -16,7 +25,7 @@
     <h3>Ingredients</h3>
     <ul>
       @for(ingredient of recipe.ingredients; track recipe.id){
-        <li>{{ingredient.name}}:</li>
+        <li>{{ingredient.name}}</li>
       }
     </ul>
     <div class="reviews-list-container">
@@ -25,7 +34,7 @@
         @for(review of recipe.reviews; track recipe.id){
           <li>{{review?.comment}}</li>
           <li>{{review?.rating}}</li>
-          <li>by {{review?.user}}</li>
+          <li>by {{review?.user?.first_name}}</li>
         }
       </ul>
     </div>

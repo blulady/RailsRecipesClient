@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RecipeService } from '../../core/services/recipe.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Recipe } from '../../shared/models/recipe';
+import { Category } from '../../shared/models/category';
 
 @Component({
   selector: 'app-recipe-details',
@@ -12,6 +13,7 @@ import { Recipe } from '../../shared/models/recipe';
 })
 export class RecipeDetailsComponent implements OnInit {
   recipe: Recipe = new Recipe({});
+  category: Category = new Category({});
 
   constructor(private recipeService: RecipeService, private route:ActivatedRoute){}
 
@@ -21,6 +23,8 @@ export class RecipeDetailsComponent implements OnInit {
           next: (recipe:Recipe) =>{
             this.recipe = recipe;
             console.log(this.recipe)
+            console.log(this.recipe.categories)
+            console.log(this.recipe.reviews)
           },
           error: (error)=>{
             console.log(error);
