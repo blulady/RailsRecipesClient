@@ -14,6 +14,7 @@ import { Category } from '../../shared/models/category';
 export class RecipeDetailsComponent implements OnInit {
   recipe: Recipe = new Recipe({});
   category: Category = new Category({});
+  // TADA add a link to this component that allows people to review this recipe
 
   constructor(private recipeService: RecipeService, private route:ActivatedRoute){}
 

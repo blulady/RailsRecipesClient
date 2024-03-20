@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
   styleUrl: './create-recipe.component.scss'
 })
 export class CreateRecipeComponent implements OnInit {
+  isDropdownOpen: boolean = false;
   recipeForm: FormGroup = new FormGroup({
     name: new FormControl(""),
     description: new FormControl(""),
@@ -24,13 +25,17 @@ export class CreateRecipeComponent implements OnInit {
     difficulty_level: new FormControl(""),
     cooking_time: new FormControl(""),
     meal: new FormControl(""),
-    measurementIds: new FormArray([])
+    ingredient: new FormControl(""),
+    ingredientsIds: new FormArray([]),
+    measurementIds: new FormArray([]),
+    ingredientAmounts: new FormControl(""),
+    categoriesIds: new FormArray([])
   });
   measurements: Measurement[] = [];
   categories: Category[] = [];
   ingredients: Ingredient[] = [];
   // ingredientAmounts: Ingredient_Amount[] = [];
-  reviews: Review[] = [];
+  // reviews: Review[] = [];
 
   constructor(private recipeService: RecipeService, private router: Router) { }
 
@@ -80,5 +85,9 @@ export class CreateRecipeComponent implements OnInit {
         console.log(error);
       },
     });
+  }
+
+  dropdownMenu(){
+    this.isDropdownOpen =!this.isDropdownOpen;
   }
 }
