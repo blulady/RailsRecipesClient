@@ -36,44 +36,77 @@
         <div class="form-group">
           <label for="ingredient">Ingredient</label>
           <input type="text" class="form-control" formControlName="ingredient">
-            <div class="dropdown">
+          <label for="ingredient_amount">Ingredient Amount</label>
+          <input type="text" class="form-control" formControlName="ingredient_amount">
+          <div class="dropdown">
               <a class="btn btn-outline-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                 Dropdown link
               </a>
 
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <li>thing1</li>
-                <li>thing2</li>
-                <li>thing3</li>
+                @if(measurementIds.length > 0){
+                  <div formArrayName="measurementIds">
+                    @for(measurement of measurements; track measurement.id){
+                      <li><input type="checkbox" [formControlName]="$index" [value]="measurement.id">{{measurement.unit_measurement}}</li>
+
+                    }
+                  </div>
+                  }
               </ul>
             </div>
           </div>
         </div>
-
-
-
-      <div class="dropdown">
-        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-          Dropdown link
-        </a>
-
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <li>thing1</li>
-          <li>thing2</li>
-          <li>thing3</li>
-        </ul>
-      </div>
     </div>
-    @if(measurementIds.length > 0){
+      <button type="submit" class="btn btn-outline-success">Submit</button>
+    </form>
+  </div>
+
+</div>
+
+<!-- <div class="dropdown">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+    Dropdown link
+  </a>
+
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <li>thing1</li>
+    <li>thing2</li>
+    <li>thing3</li>
+  </ul>
+</div> -->
+<!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+  @if(measurementIds.length > 0){
+    <div formArrayName="measurementIds">
+      @for(measurement of measurements; track measurement.id){
+        <li><input type="checkbox" [formControlName]="$index" [value]="measurement.id">{{measurement.unit_measurement}}</li>
+
+      }
+    </div>
+    }
+</ul> -->
+<!-- <div class="ingredient-form-group">
+  <div class="ingredient-text-area">
+    <div class="form-group">
+      <label for="ingredient">Ingredient</label>
+      <input type="text" class="form-control" formControlName="ingredient">
+        <div class="dropdown">
+          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown link
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li>thing1</li>
+            <li>thing2</li>
+            <li>thing3</li>
+          </ul>
+        </div>
+      </div>
+    </div> -->
+    <!-- @if(measurementIds.length > 0){
       <div formArrayName="measurementIds">
         @for(measurement of measurements; track measurement.id){
           <input type="checkbox" [formControlName]="$index" [value]="measurement.id">
           {{measurement.unit_measurement}}
         }
       </div>
-      }
-      <button type="submit" class="btn btn-outline-success">Submit</button>
-    </form>
-  </div>
-
-</div>
+      } -->
