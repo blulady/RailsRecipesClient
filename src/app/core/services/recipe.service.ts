@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Measurement } from '../../shared/models/measurement';
+import { Ingredient } from '../../shared/models/ingredient';
+import { RecipeIngredient } from '../../shared/models/recipe-ingredient';
 
 @Injectable({
   providedIn: 'root'
@@ -30,4 +32,16 @@ export class RecipeService {
   createRecipe(recipe:Recipe){
     return this.http.post<Recipe>(`${environment.apiUrl}/recipes`, recipe)
   }
+  createIngredient(ingredient:Ingredient){
+    return this.http.post<Ingredient>(`${environment.apiUrl}/ingredients`, ingredient)
+  } //will need to grab id for entry into recipe_ingredients?
+
+  createIngredientMeasurment(measurement:Measurement){
+    return this.http.post<Measurement>(`${environment.apiUrl}/measurements`, measurement)
+  } //will need to grab id for entry into recipe_ingredients?
+
+  createRecipeIngredient(recipe_ingredients:RecipeIngredient){
+    return this.http.post<RecipeIngredient>(`${environment.apiUrl}/recipe_ingredients`, recipe_ingredients)
+  } //will need to grab id for entry into recipe_ingredients?
+
 }

@@ -1,5 +1,5 @@
 export class Ingredient {
-  id: number;
+  id?: number;
   name: string;
 
   constructor(ingredient:any) {

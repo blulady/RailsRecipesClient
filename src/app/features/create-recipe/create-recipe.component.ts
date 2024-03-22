@@ -6,6 +6,7 @@ import { Review } from '../../shared/models/review';
 import { RecipeService } from '../../core/services/recipe.service';
 import { Measurement } from '../../shared/models/measurement';
 import { Recipe } from '../../shared/models/recipe';
+import { RecipeIngredient } from '../../shared/models/recipe-ingredient';
 import { Router } from '@angular/router';
 
 @Component({
@@ -28,7 +29,7 @@ export class CreateRecipeComponent implements OnInit {
     ingredient: new FormControl(""),
     ingredientsIds: new FormArray([]),
     measurementIds: new FormArray([]),
-    ingredientAmounts: new FormControl(""),
+    ingredientAmount: new FormControl(""),
     categoriesIds: new FormArray([])
   });
   measurements: Measurement[] = [];
@@ -36,6 +37,11 @@ export class CreateRecipeComponent implements OnInit {
   ingredients: Ingredient[] = [];
   // ingredientAmounts: Ingredient_Amount[] = [];
   // reviews: Review[] = [];
+  ingredient = '';
+  // ingredientAmount = 0;
+  ingredientMeasurement = '';
+  recipe_id = 0;
+
 
   constructor(private recipeService: RecipeService, private router: Router) { }
 
@@ -67,7 +73,7 @@ export class CreateRecipeComponent implements OnInit {
   }
 
   onCreateRecipe(){
-    // console.log(this.recipeForm);
+    console.log(this.recipeForm);
     const measurementIdsFormValue = this.recipeForm.value.measurementIds;
     const measurmentIds = measurementIdsFormValue.map((checked:boolean, i:number)=>{
       return checked ? this.measurements[i].id : null;
@@ -77,14 +83,104 @@ export class CreateRecipeComponent implements OnInit {
     const recipe:Recipe = {
       ...this.recipeForm.value,
     }
+
+
+    this.ingredientMeasurement = "cup"
+
+    const ingredient:Ingredient = {
+      name: this.recipeForm.value.ingredient
+    }
+
+    const ingredientAmount = this.recipeForm.value.ingredientAmount;
+
     this.recipeService.createRecipe(recipe).subscribe({
-      next:() =>{
+      next: (recipe: Recipe) => {
         this.router.navigate(['/']);
+        recipe.id = recipe.id;
+        console.log(recipe.id);
+
+        this.recipeService.createIngredient(ingredient).subscribe({
+          next: (ingredient: Ingredient) => {
+            console.log(ingredient);
+            ingredient.id = ingredient.id;
+            console.log(ingredient.id);
+            console.log(ingredientAmount);
+            const recipeIngredient: RecipeIngredient = {
+              recipe_id: recipe.id,
+              ingredient_id: ingredient.id || 1,
+              measurement_id: 2,
+              ingredient_amount: ingredientAmount * 1
+            };
+            console.log(recipeIngredient);
+            this.recipeService.createRecipeIngredient(recipeIngredient).subscribe({
+              next: (recipeIngredient: RecipeIngredient) => {
+                console.log(recipeIngredient);
+              }
+            })
+
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
       },
       error: (error) => {
         console.log(error);
       },
     });
+
+
+    // this.recipeService.createRecipe(recipe).subscribe({
+    //   next: (recipe: Recipe) => {
+    //     this.router.navigate(['/']);
+    //     recipe.id = recipe.id;
+    //     console.log(recipe.id);
+    //   },
+    //   error: (error) => {
+    //     console.log(error);
+    //   },
+    // });
+    // this.recipeService.createIngredient(ingredient).subscribe({
+    //   next: (ingredient:Ingredient) => {
+    //     console.log(ingredient);
+    //     ingredient.id = ingredient.id;
+    //     console.log(ingredient.id);
+    //     console.log(ingredientAmount);
+    //     const recipeIngredient:RecipeIngredient = {
+    //       recipe_id: this.recipe_id,
+    //       ingredient_id: ingredient.id || 1,
+    //       measurement_id: 2,
+    //       ingredient_amount: ingredientAmount * 1
+    //     };
+    //     console.log(recipeIngredient);
+
+    //   },
+    //   error: (error) => {
+    //     console.log(error)
+    //   }
+    // })
+
+    // this.recipeService.createIngredient(ingredient).subscribe({
+    //   next: (ingredient:Ingredient) => {
+    //     console.log(ingredient);
+    //     ingredient.id = ingredient.id;
+    //     console.log(ingredient.id);
+
+    //     recipeIngredient = {
+    //       recipe_id: recipe.id,
+    //       ingredient_id: ingredient.id,
+    //       measurement_id: 2,
+    //       amount: this.ingredientAmount,
+    //       unit: this.ingredientMeasurement
+    //     }
+    //   },
+    //   error: (error) => {
+    //     console.log(error)
+    //   }
+    // })
+
+
+
   }
 
   dropdownMenu(){
