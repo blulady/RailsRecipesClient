@@ -24,7 +24,7 @@ export class Recipe {
     this.img_url = recipe.img_url || '';
     this.instructions = recipe.instructions || '';
     this.difficulty_level = recipe.difficulty_level || '';
-    this.cooking_time = recipe.cooking_time || '';
+    this.cooking_time = recipe.cooking_time || 0;
     this.meal = recipe.meal || '';
     this.ingredients = recipe.ingredients || [];
     this.categories = recipe.categories || [];

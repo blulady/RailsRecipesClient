@@ -8,6 +8,7 @@ import { Measurement } from '../../shared/models/measurement';
 import { Recipe } from '../../shared/models/recipe';
 import { RecipeIngredient } from '../../shared/models/recipe-ingredient';
 import { Router } from '@angular/router';
+import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-create-recipe',
@@ -85,7 +86,6 @@ export class CreateRecipeComponent implements OnInit {
     }
 
 
-    this.ingredientMeasurement = "cup"
 
     const ingredient:Ingredient = {
       name: this.recipeForm.value.ingredient
@@ -99,30 +99,72 @@ export class CreateRecipeComponent implements OnInit {
         recipe.id = recipe.id;
         console.log(recipe.id);
 
-        this.recipeService.createIngredient(ingredient).subscribe({
+        this.recipeService.getIngredientByName(ingredient.name).pipe(
+          catchError((err) => {
+            return this.recipeService.createIngredient(ingredient);
+          })
+        ).subscribe({
           next: (ingredient: Ingredient) => {
             console.log(ingredient);
-            ingredient.id = ingredient.id;
-            console.log(ingredient.id);
-            console.log(ingredientAmount);
+
             const recipeIngredient: RecipeIngredient = {
               recipe_id: recipe.id,
-              ingredient_id: ingredient.id || 1,
+              ingredient_id: ingredient.id || 0,
               measurement_id: 2,
-              ingredient_amount: ingredientAmount * 1
+              ingredient_amount: ingredientAmount
             };
             console.log(recipeIngredient);
             this.recipeService.createRecipeIngredient(recipeIngredient).subscribe({
               next: (recipeIngredient: RecipeIngredient) => {
                 console.log(recipeIngredient);
               }
-            })
-
+            });
           },
-          error: (error) => {
-            console.log(error);
+          error: (err) => {
+            console.error(err);
           }
-        });
+        })
+
+      // this.recipeService.getIngredientByName(ingredient.name).subscribe({
+      //   next: (ingredient: Ingredient) => {
+      //     console.log("this is getIngredientby name", ingredient)
+      //   },
+      //   error:(err) => {
+      //     this.recipeService.createIngredient(ingredient).subscribe({
+      //       next: (createdIngredient: Ingredient) => {
+      //         console.log("this is the error that created",createdIngredient);
+      //       },
+      //       error: (createErr) => {
+      //         console.error(createErr)
+      //       }
+      //     })
+      //   }
+      // })
+
+        // this.recipeService.createIngredient(ingredient).subscribe({
+        //   next: (ingredient: Ingredient) => {
+        //     console.log(ingredient);
+        //     ingredient.id = ingredient.id;
+        //     console.log(ingredient.id);
+        //     console.log(ingredientAmount);
+        //     const recipeIngredient: RecipeIngredient = {
+        //       recipe_id: recipe.id,
+        //       ingredient_id: ingredient.id || 1,
+        //       measurement_id: 2,
+        //       ingredient_amount: ingredientAmount * 1
+        //     };
+        //     console.log(recipeIngredient);
+        //     this.recipeService.createRecipeIngredient(recipeIngredient).subscribe({
+        //       next: (recipeIngredient: RecipeIngredient) => {
+        //         console.log(recipeIngredient);
+        //       }
+        //     })
+
+        //   },
+        //   error: (error) => {
+        //     console.log(error);
+        //   }
+        // });
       },
       error: (error) => {
         console.log(error);
@@ -185,5 +227,15 @@ export class CreateRecipeComponent implements OnInit {
 
   dropdownMenu(){
     this.isDropdownOpen =!this.isDropdownOpen;
+  }
+
+  onDeleteIngredient(){}
+
+  onAddIngredient(){
+    this.recipeForm.get(this.ingredient)
+    new FormGroup({
+      'ingredient': new FormControl(),
+      'ingredientAmount': new FormControl()
+    })
   }
 }

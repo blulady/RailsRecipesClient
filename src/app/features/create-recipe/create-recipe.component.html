@@ -24,7 +24,7 @@
     </div>
     <div class="form-group">
       <label for="cooking_time">Cooking Time</label>
-      <input type="text" class="form-control" formControlName="cooking_time">
+      <input type="number" class="form-control" formControlName="cooking_time">
     </div>
     <div class="form-group">
       <label for="meal">Meal Type</label>
@@ -36,7 +36,10 @@
         <div class="form-group">
           <label for="ingredient">Ingredient</label>
           <input type="text" class="form-control" formControlName="ingredient">
-          <label for="ingredientAmount">Ingredient Amount</label>
+          <div class="ingredientAmountLabel">
+            <label for="ingredientAmount">Ingredient Amount</label>
+          </div>
+
           <input type="text" class="form-control" formControlName="ingredientAmount">
           <div class="dropdown">
               <a class="btn btn-outline-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
@@ -54,7 +57,13 @@
                   }
               </ul>
             </div>
+            <div class="ingredientDeleteButton">
+              <button type="button" class="btn btn-outline-danger btn-sm" (click)="onDeleteIngredient" aria-expanded="true">Delete</button>
+            </div>
           </div>
+        </div>
+        <div class="ingredientButton">
+          <button type="button" class="btn btn-outline-success btn-sm" (click)="onDeleteIngredient" aria-expanded="true">Add Another Ingredient</button>
         </div>
     </div>
       <button type="submit" class="btn btn-outline-success">Submit</button>

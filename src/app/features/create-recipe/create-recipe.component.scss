@@ -46,6 +46,25 @@ input{
   border-radius: 4px;
 
 }
+
+.ingredientDeleteButton .btn{
+  line-height: 1;
+  margin-left: 5px;
+}
+
+.dropdown .btn{
+  margin-left: 5px;
+}
+.ingredientAmountLabel{
+  margin-left: 5px;
+}
+
+.ingredientButton .btn {
+  line-height: 1;
+  margin-left: 5px;
+  margin-top: 5px;
+
+}
 // .dropdown:hover {
 //   display: block;
 // }
