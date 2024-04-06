@@ -33,12 +33,9 @@
 
     <div class="ingredient-form-group">
       <div class="ingredient-text-area">
-        <div>Ingredients count: {{ ingredients.controls.length }}</div>
-
-      <div class="ingredients" class="form-array" formArrayName="ingredients">
-        @for(ingredient of ingredients.controls; track ingredients){
-
-          <div class="form-group">
+      <div class="ingredients" class="form-array" formGroupName="ingredients">
+        @for(ingredientGroup of ingredientGroups.controls; track $index){
+          <div class="form-group" [formGroupName]="$index">
               <label for="ingredient">Ingredient</label>
               <input type="text" class="form-control" formControlName="ingredient">
               <div class="ingredientAmountLabel">
@@ -63,7 +60,7 @@
                   </ul>
                 </div>
                 <div class="ingredientDeleteButton">
-                  <button type="button" class="btn btn-outline-danger btn-sm" (click)="onDeleteIngredient()" aria-expanded="true">Delete</button>
+                  <button type="button" class="btn btn-outline-danger btn-sm" (click)="onDeleteIngredient($index)" aria-expanded="true">Delete</button>
                 </div>
               </div>
         }

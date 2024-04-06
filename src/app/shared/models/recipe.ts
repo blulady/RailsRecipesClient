@@ -3,24 +3,24 @@ import { Ingredient } from "./ingredient";
 import { Review } from "./review";
 
 export class Recipe {
-  id: number;
+  id?: number;
   name: string;
   description: string;
-  servings: string;
+  servings: number;
   img_url: string;
   instructions: string;
   difficulty_level: string;
   cooking_time: number;
   meal: string;
   ingredients: Ingredient[];
-  categories: Category[];
-  reviews: Review[];
+  categories?: Category[];
+  reviews?: Review[];
 
   constructor(recipe:any) {
     this.id = recipe.id || 0;
     this.name = recipe.name || '';
     this.description = recipe.description || '';
-    this.servings = recipe.servings || '';
+    this.servings = recipe.servings || 0;
     this.img_url = recipe.img_url || '';
     this.instructions = recipe.instructions || '';
     this.difficulty_level = recipe.difficulty_level || '';
