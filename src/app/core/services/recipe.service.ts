@@ -29,7 +29,7 @@ export class RecipeService {
     return this.http.get<Measurement[]>(`${environment.apiUrl}/measurements`)
   }
 
-  getIngredientByName(name:string | number){
+  getIngredientByName(name:string){
     return this.http.get<Ingredient>(`${environment.apiUrl}/ingredients/name/${name}`)
   }
 

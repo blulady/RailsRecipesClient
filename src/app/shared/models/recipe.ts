@@ -3,7 +3,7 @@ import { Ingredient } from "./ingredient";
 import { Review } from "./review";
 
 export class Recipe {
-  id?: number;
+  id?: number | null;
   name: string;
   description: string;
   servings: number;
@@ -12,7 +12,7 @@ export class Recipe {
   difficulty_level: string;
   cooking_time: number;
   meal: string;
-  ingredients: Ingredient[];
+  ingredients?: Ingredient[];
   categories?: Category[];
   reviews?: Review[];
 

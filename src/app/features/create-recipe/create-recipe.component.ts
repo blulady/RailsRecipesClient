@@ -97,7 +97,8 @@ export class CreateRecipeComponent implements OnInit {
     })
 
     const recipe: Recipe = { ...this.recipeForm.value,
-        id: 0,
+
+        id: null,
         img_url: this.recipeForm.value.img_url || "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.thespruceeats.com%2Fthai-chicken-recipe-2243630&psig=AOvVaw0-w63-8632-674-1185&ust=1624384527815000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOj65757-oCFQAAAAAdAAAAABAD",
         categories: this.recipeForm.value.categories as Category[],
         name: this.recipeForm.value.name || "",
@@ -107,52 +108,62 @@ export class CreateRecipeComponent implements OnInit {
         difficulty_level: this.recipeForm.value.difficulty_level || "",
         cooking_time: this.recipeForm.value.cooking_time || 0,
         meal: this.recipeForm.value.meal || "",
-        ingredients: this.recipeForm.value.ingredients as Ingredient[],
+        ingredients: undefined
+        // ingredients: this.recipeForm.value.ingredients as Ingredient[],
 
            };
 
-
+      console.log("recipe:", recipe)
       const ingredientsFormArray = this.ingredientGroups;
       console.log("ingredients form array", ingredientsFormArray)
 
+      console.log("ingredients form array value", ingredientsFormArray.value[0].ingredient, ingredientsFormArray.value[0].ingredientAmount, ingredientsFormArray.value[0].measurementIds)
 
-      ingredientsFormArray.controls.forEach((control: AbstractControl) => {
-        const ingredientFormGroup = control as FormGroup;
-        const ingredientName = ingredientFormGroup.get('ingredient')?.value || "";
-        const ingredientAmount = ingredientFormGroup.get('ingredientAmount')?.value || 0;
-        const measurmentIds = ingredientFormGroup.get('measurementIds')?.value as [];
+      this.recipeService.createRecipe(recipe).subscribe({
+        next: (recipe: Recipe) => {
+          // this.router.navigate(['/']);
+          recipe.id = recipe.id;
+          console.log(recipe.id);
 
-        this.recipeService.getIngredientByName(ingredientName).pipe(
-          catchError((err) => {
-            return this.recipeService.createIngredient({name: ingredientName})
-          })
-        ).subscribe({
-          next: (ingredient: Ingredient) => {
-            console.log(ingredient);
-            const recipeIngredient : RecipeIngredient = {
-              recipe_id: recipe.id || 0,
-              ingredient_id: ingredient.id || 0,
-              measurement_id: 2,
-              ingredient_amount: ingredientAmount
-            };
-            console.log(recipeIngredient);
-            this.recipeService.createRecipeIngredient(recipeIngredient).subscribe({
-              next: (recipeIngredient: RecipeIngredient) => {
+          ingredientsFormArray.value.forEach((ingredient: any) => {
+            console.log(ingredient.ingredient, ingredient.ingredientAmount)
+            const ingredientName = ingredient.ingredient || "";
+            const ingredientAmount = ingredient.ingredientAmount || 0;
+            let ingredientId = ingredient.ingredient_id || 0;
+            const measurmentIds = ingredient.measurementIds as [];
+
+            this.recipeService.createIngredient({name: ingredientName}).pipe(
+              catchError((err) => {
+                return this.recipeService.getIngredientByName(ingredient.ingredient)
+              })
+            ).subscribe({
+              next: (ingredient: Ingredient) => {
+                console.log(ingredient);
+                const recipeIngredient : RecipeIngredient = {
+                  recipe_id: recipe.id || 0,
+                  ingredient_id: ingredient.id || 0,
+                  measurement_id: 2,
+                  ingredient_amount: ingredientAmount || 0
+                };
                 console.log(recipeIngredient);
+                this.recipeService.createRecipeIngredient(recipeIngredient).subscribe({
+                  next: (recipeIngredient: RecipeIngredient) => {
+                    console.log(recipeIngredient);
+                  },
+                  error: (err) => {
+                    console.error('error creating RecipeIngredient',err);
+                  }
+                });
               },
               error: (err) => {
-                console.error('Error creating RecipeIngredent:', err)
+                console.error('error creating ingredient',err);
               }
             });
-          },
-          error: (err) => {
-            console.error('Error fetching/creating:', err)
-          }
-        });
-
-  });
-
+          });
+        }
+      })
   }
+
   dropdownMenu(){
     this.isDropdownOpen =!this.isDropdownOpen;
   }
@@ -178,21 +189,70 @@ export class CreateRecipeComponent implements OnInit {
   }
 }
 
+// this.recipeService.getIngredientByName(ingredient.ingredient).pipe(
+//   catchError((err) => {
+//     return this.recipeService.createIngredient({name: ingredientName})
+//   })
+// ).subscribe({
+//   next: (ingredient: Ingredient) => {
+//     console.log(ingredient);
+//     const recipeIngredient : RecipeIngredient = {
+//       recipe_id: recipe.id || 0,
+//       ingredient_id: ingredient.id || 0,
+//       measurement_id: 2,
+//       ingredient_amount: ingredientAmount || 0
+//     };
+//     console.log(recipeIngredient);
+//     this.recipeService.createRecipeIngredient(recipeIngredient).subscribe({
+//       next: (recipeIngredient: RecipeIngredient) => {
+//         console.log(recipeIngredient);
+//       },
+//       error: (err) => {
+//         console.error('error creating RecipeIngredient',err);
+//       }
+//     });
+//   },
+//   error: (err) => {
+//     console.error('error creating ingredient',err);
+//   }
+// });
+// });
+// }
+// })
+// }
 
-//   this.recipeService.getIngredientByName(ingredient.name).pipe(
-//     catchError((err) => {
-//       return this.recipeService.createIngredient(ingredient);
-//     })
-//   ).subscribe({
-//     next: (ingredient: Ingredient) => {
-//       console.log(ingredient);
+      // ingredientsFormArray.value.forEach((item: any ) => {
+      //   console.log(item.ingredient, item.ingredientAmount)
+      //   const ingredientName = item.ingredient || "";
+      //   const ingredientAmount = item.ingredientAmount || 0;
+      //   const measurmentIds = item.measurementIds as [];
+      // })
 
-//       const recipeIngredient: RecipeIngredient = {
-//         recipe_id: recipe.id || 0,
-//         ingredient_id: ingredient.id || 0,
-//         measurement_id: 2,
-//         ingredient_amount: ingredientAmount
-//       };
+      // ingredientsFormArray.controls.forEach((control: AbstractControl) => {
+      //   const ingredientFormGroup = control as FormGroup;
+      //   const ingredientName = ingredientFormGroup.get('ingredient')?.value || "";
+      //   const ingredientAmount = ingredientFormGroup.get('ingredientAmount')?.value || 0;
+      //   const measurmentIds = ingredientFormGroup.get('measurementIds')?.value as [];
+
+      //   this.recipeService.getIngredientByName(ingredientName).pipe(
+      //     catchError((err) => {
+      //       return this.recipeService.createIngredient({name: ingredientName})
+      //     }))
+
+  // this.recipeService.getIngredientByName(ingredient.name).pipe(
+  //   catchError((err) => {
+  //     return this.recipeService.createIngredient(ingredient);
+  //   })
+  // ).subscribe({
+  //   next: (ingredient: Ingredient) => {
+  //     console.log(ingredient);
+
+  //     const recipeIngredient: RecipeIngredient = {
+  //       recipe_id: recipe.id || 0,
+  //       ingredient_id: ingredient.id || 0,
+  //       measurement_id: 2,
+  //       ingredient_amount: ingredientAmount
+  //     };
 //       console.log(recipeIngredient);
 //       this.recipeService.createRecipeIngredient(recipeIngredient).subscribe({
 //         next: (recipeIngredient: RecipeIngredient) => {
@@ -392,43 +452,43 @@ export class CreateRecipeComponent implements OnInit {
 
 //     const ingredientAmount = this.recipeForm.value.ingredientAmount;
 
-//     this.recipeService.createRecipe(recipe).subscribe({
-//       next: (recipe: Recipe) => {
-//         this.router.navigate(['/']);
-//         recipe.id = recipe.id;
-//         console.log(recipe.id);
+  //   this.recipeService.createRecipe(recipe).subscribe({
+  //     next: (recipe: Recipe) => {
+  //       this.router.navigate(['/']);
+  //       recipe.id = recipe.id;
+  //       console.log(recipe.id);
 
-//         this.recipeService.getIngredientByName(ingredient.name).pipe(
-//           catchError((err) => {
-//             return this.recipeService.createIngredient(ingredient);
-//           })
-//         ).subscribe({
-//           next: (ingredient: Ingredient) => {
-//             console.log(ingredient);
+  //       this.recipeService.getIngredientByName(ingredient.name).pipe(
+  //         catchError((err) => {
+  //           return this.recipeService.createIngredient(ingredient);
+  //         })
+  //       ).subscribe({
+  //         next: (ingredient: Ingredient) => {
+  //           console.log(ingredient);
 
-//             const recipeIngredient: RecipeIngredient = {
-//               recipe_id: recipe.id,
-//               ingredient_id: ingredient.id || 0,
-//               measurement_id: 2,
-//               ingredient_amount: ingredientAmount
-//             };
-//             console.log(recipeIngredient);
-//             this.recipeService.createRecipeIngredient(recipeIngredient).subscribe({
-//               next: (recipeIngredient: RecipeIngredient) => {
-//                 console.log(recipeIngredient);
-//               }
-//             });
-//           },
-//           error: (err) => {
-//             console.error(err);
-//           }
-//         })
-//       },
-//       error: (error) => {
-//         console.log(error);
-//       },
-//     });
-//   }
+  //           const recipeIngredient: RecipeIngredient = {
+  //             recipe_id: recipe.id,
+  //             ingredient_id: ingredient.id || 0,
+  //             measurement_id: 2,
+  //             ingredient_amount: ingredientAmount
+  //           };
+  //           console.log(recipeIngredient);
+  //           this.recipeService.createRecipeIngredient(recipeIngredient).subscribe({
+  //             next: (recipeIngredient: RecipeIngredient) => {
+  //               console.log(recipeIngredient);
+  //             }
+  //           });
+  //         },
+  //         error: (err) => {
+  //           console.error(err);
+  //         }
+  //       })
+  //     },
+  //     error: (error) => {
+  //       console.log(error);
+  //     },
+  //   });
+  // }
 
 //   dropdownMenu(){
 //     this.isDropdownOpen =!this.isDropdownOpen;
