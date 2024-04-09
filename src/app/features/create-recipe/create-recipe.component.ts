@@ -18,6 +18,7 @@ import { catchError } from 'rxjs';
   styleUrl: './create-recipe.component.scss'
 })
 export class CreateRecipeComponent implements OnInit {
+  selectedFile: File | null = null;
   isDropdownOpen: boolean = false;
 
   constructor(private recipeService: RecipeService, private router: Router, private cdr: ChangeDetectorRef, private fb: FormBuilder) { }
@@ -132,11 +133,8 @@ export class CreateRecipeComponent implements OnInit {
             let ingredientId = ingredient.ingredient_id || 0;
             const measurmentIds = ingredient.measurementIds as [];
 
-            this.recipeService.createIngredient({name: ingredientName}).pipe(
-              catchError((err) => {
-                return this.recipeService.getIngredientByName(ingredient.ingredient)
-              })
-            ).subscribe({
+            this.recipeService.getIngredientByName(ingredient.ingredient).
+            subscribe({
               next: (ingredient: Ingredient) => {
                 console.log(ingredient);
                 const recipeIngredient : RecipeIngredient = {
@@ -187,7 +185,19 @@ export class CreateRecipeComponent implements OnInit {
   onDeleteIngredient(index: number){
     this.ingredientGroups.removeAt(index);
   }
+
+  onFileSelected(event:any){
+    if (event.target.files && event.target[0]){
+      this.selectedFile = event.target[0];
+    }
+  }
 }
+
+// this.recipeService.createIngredient({name: ingredientName}).pipe(
+//   catchError((err) => {
+//     return this.recipeService.getIngredientByName(ingredient.ingredient)
+//   })
+// ).subscribe({
 
 // this.recipeService.getIngredientByName(ingredient.ingredient).pipe(
 //   catchError((err) => {

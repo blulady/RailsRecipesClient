@@ -68,6 +68,10 @@
         <div class="ingredientButton">
           <button type="button" class="btn btn-outline-success btn-sm" (click)="onAddIngredient()" aria-expanded="true">Add Another Ingredient</button>
         </div>
+        <div>
+          <label for="recipe-image">Recipe Image</label>
+          <input type="file" class="form-control" (change)="onFileSelected($event)" id="recipe-image">
+        </div>
 
         </div>
       <button type="submit" class="btn btn-outline-success">Submit</button>
